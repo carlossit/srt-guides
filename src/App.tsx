@@ -139,6 +139,7 @@ function App() {
                   disabled={false}
                   proximity={64}
                   inactiveZone={0.01}
+                  autoAnimate
                 />
                 <img
                   src="/images/srt_modules-removebg-preview.png"
@@ -181,6 +182,7 @@ const BentoCard = ({ area, icon: Icon, title, description, href }: CardSpec) => 
           disabled={false}
           proximity={64}
           inactiveZone={0.01}
+          autoAnimate
         />
         <div className="relative flex h-full flex-col justify-between gap-4 overflow-hidden rounded-xl bg-black/40 p-5 shadow-[0px_0px_27px_0px_#1a1a1a] md:p-6">
           <div

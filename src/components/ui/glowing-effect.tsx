@@ -16,6 +16,7 @@ interface GlowingEffectProps {
   disabled?: boolean
   movementDuration?: number
   borderWidth?: number
+  autoAnimate?: boolean
 }
 
 const GlowingEffect = memo(
@@ -30,6 +31,7 @@ const GlowingEffect = memo(
     movementDuration = 2,
     borderWidth = 1,
     disabled = true,
+    autoAnimate = false,
   }: GlowingEffectProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const lastPosition = useRef({ x: 0, y: 0 })
@@ -102,6 +104,13 @@ const GlowingEffect = memo(
     useEffect(() => {
       if (disabled) return
 
+      if (autoAnimate) {
+        if (containerRef.current) {
+          containerRef.current.style.setProperty("--active", "1")
+        }
+        return
+      }
+
       const handleScroll = () => handleMove()
       const handlePointerMove = (e: PointerEvent) => handleMove(e)
 
@@ -117,7 +126,7 @@ const GlowingEffect = memo(
         window.removeEventListener("scroll", handleScroll)
         document.body.removeEventListener("pointermove", handlePointerMove)
       }
-    }, [handleMove, disabled])
+    }, [handleMove, disabled, autoAnimate])
 
     return (
       <>
@@ -164,6 +173,7 @@ const GlowingEffect = memo(
             "pointer-events-none absolute inset-0 rounded-[inherit] opacity-100 transition-opacity",
             glow && "opacity-100",
             blur > 0 && "blur-[var(--blur)] ",
+            autoAnimate && "animate-glow-spin",
             className,
             disabled && "!hidden"
           )}

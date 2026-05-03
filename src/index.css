@@ -2,6 +2,19 @@
 
 @theme {
   --animate-meteor: meteor 5s linear infinite;
+  --animate-glow-spin: glow-spin 6s linear infinite;
+}
+
+@property --start {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: false;
+}
+
+@keyframes glow-spin {
+  to {
+    --start: 360;
+  }
 }
 
 @keyframes meteor {
