@@ -17,6 +17,10 @@
   }
 }
 
+.group:hover .animate-glow-spin {
+  animation-duration: 2s;
+}
+
 @keyframes meteor {
   0% {
     transform: rotate(var(--angle)) translateX(0);

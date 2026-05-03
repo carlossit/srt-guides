@@ -172,7 +172,7 @@ const BentoCard = ({ area, icon: Icon, title, description, href }: CardSpec) => 
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative block h-full rounded-2xl border border-neutral-800 p-2 md:rounded-3xl md:p-3"
+        className="group relative block h-full rounded-2xl border border-neutral-800 p-2 transition duration-300 hover:scale-[1.02] hover:border-red-900 md:rounded-3xl md:p-3"
       >
         <GlowingEffect
           blur={0}
