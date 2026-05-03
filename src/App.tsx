@@ -95,7 +95,9 @@ function App() {
           </a>
 
           <a
-            href="#"
+            href="https://streamlineit.com/contact/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700"
           >
             Contact Sales
@@ -110,6 +112,18 @@ function App() {
         </div>
 
         <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="mb-10 text-center md:mb-14">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-red-500">
+              Interactive Guides
+            </p>
+            <h1 className="text-4xl font-bold uppercase leading-[1.05] tracking-tight text-white md:text-5xl lg:text-6xl">
+              Explore every Streamline-It module
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-base text-neutral-400 md:text-lg">
+              Click any card to walk through the module step-by-step.
+            </p>
+          </div>
+
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-12 md:grid-rows-4 xl:grid-rows-4">
             {CARDS.map((card) => (
               <BentoCard key={card.href} {...card} />
@@ -169,7 +183,19 @@ const BentoCard = ({ area, icon: Icon, title, description, href }: CardSpec) => 
           inactiveZone={0.01}
         />
         <div className="relative flex h-full flex-col justify-between gap-4 overflow-hidden rounded-xl bg-black/40 p-5 shadow-[0px_0px_27px_0px_#1a1a1a] md:p-6">
-          <div className="flex flex-1 flex-col justify-between gap-3">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-60"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle, rgba(239,68,68,0.13) 1px, transparent 1px)',
+              backgroundSize: '14px 14px',
+              maskImage:
+                'radial-gradient(ellipse at top right, black, transparent 75%)',
+              WebkitMaskImage:
+                'radial-gradient(ellipse at top right, black, transparent 75%)',
+            }}
+          />
+          <div className="relative flex flex-1 flex-col justify-between gap-3">
             <div className="w-fit rounded-lg border border-neutral-700 p-2">
               <Icon className="h-4 w-4 text-neutral-400" />
             </div>
