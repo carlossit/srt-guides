@@ -22,61 +22,68 @@ type CardSpec = {
   area: string
 }
 
+// Sorted by warehouse operation flow:
+// Receiving → (Q.C.) → Stocking → Cycle Counting → Picking → Consolidation → (Q.C.) → Packing → Shipping
 const CARDS: CardSpec[] = [
-  {
-    title: 'Consolidation',
-    description: 'Combine receipts and orders into single pick lists.',
-    icon: Combine,
-    href: 'https://app.supademo.com/demo/cmonivxys1anyw9donwgy73jm?utm_source=link',
-    area: 'md:[grid-area:1/1/2/4] xl:[grid-area:1/1/2/4]',
-  },
+  // 1-4: Receiving (left column, top to bottom on xl)
   {
     title: 'Receive-It: Expected Receipt',
     description: 'ASN-driven inbound receiving against POs.',
     icon: ClipboardCheck,
     href: 'https://app.supademo.com/demo/cmon0sug50npgw9dormp78ogr?utm_source=link',
-    area: 'md:[grid-area:1/4/2/7] xl:[grid-area:2/1/3/4]',
+    area: 'md:[grid-area:1/1/2/4] xl:[grid-area:1/1/2/4]',
   },
   {
     title: 'Receive-It: Unexpected Receipt',
     description: 'Capture unplanned inbound without breaking flow.',
     icon: ClipboardX,
     href: 'https://app.supademo.com/demo/cmom3cuv02cojpimdom6ark25?utm_source=link',
-    area: 'md:[grid-area:1/7/2/10] xl:[grid-area:3/1/4/4]',
+    area: 'md:[grid-area:1/4/2/7] xl:[grid-area:2/1/3/4]',
   },
   {
     title: 'Receive-It: Generate Labels',
     description: 'Print SSCC and item labels right on the dock.',
     icon: Tag,
     href: 'https://app.supademo.com/demo/cmom05fce2b3dpimdplfzaa7v?utm_source=link',
-    area: 'md:[grid-area:1/10/2/13] xl:[grid-area:4/1/5/4]',
+    area: 'md:[grid-area:1/7/2/10] xl:[grid-area:3/1/4/4]',
   },
   {
     title: 'Receive-It: Receive to Tote',
     description: 'Receive directly into totes for downstream put-away.',
     icon: PackagePlus,
     href: 'https://app.supademo.com/demo/cmolz2jiw29dnpimds6y122wl?utm_source=link',
-    area: 'md:[grid-area:4/1/5/4] xl:[grid-area:1/10/2/13]',
+    area: 'md:[grid-area:1/10/2/13] xl:[grid-area:4/1/5/4]',
   },
+
+  // 5-7: Stocking (right column, top to bottom on xl)
   {
     title: 'Stock-It: Tote Put-Away',
     description: 'Move totes from receiving into storage locations.',
     icon: Container,
     href: 'https://app.supademo.com/demo/cmokl08rk947oza2i0nnz3b3w?utm_source=link',
-    area: 'md:[grid-area:4/4/5/7] xl:[grid-area:2/10/3/13]',
+    area: 'md:[grid-area:4/1/5/4] xl:[grid-area:1/10/2/13]',
   },
   {
     title: 'Stock-It: Product Put-Away',
     description: 'Place individual products into bin locations.',
     icon: Package,
     href: 'https://app.supademo.com/demo/cmokpjkrh02onpimdpz4w3tbx?utm_source=link',
-    area: 'md:[grid-area:4/7/5/10] xl:[grid-area:3/10/4/13]',
+    area: 'md:[grid-area:4/4/5/7] xl:[grid-area:2/10/3/13]',
   },
   {
     title: 'Stock-It: Pallet Putaway',
     description: 'Park full pallets into rack or bulk storage.',
     icon: Boxes,
     href: 'https://app.supademo.com/demo/cmokquxcw03nxpimdcc4ajqjm?utm_source=link',
+    area: 'md:[grid-area:4/7/5/10] xl:[grid-area:3/10/4/13]',
+  },
+
+  // 8: Consolidation (post-Picking, pre-Packing)
+  {
+    title: 'Consolidation',
+    description: 'Combine receipts and orders into single pick lists.',
+    icon: Combine,
+    href: 'https://app.supademo.com/demo/cmonivxys1anyw9donwgy73jm?utm_source=link',
     area: 'md:[grid-area:4/10/5/13] xl:[grid-area:4/10/5/13]',
   },
 ]
