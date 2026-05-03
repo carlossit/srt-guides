@@ -1,92 +1,50 @@
-import {
-  Boxes,
-  ClipboardCheck,
-  ClipboardX,
-  Combine,
-  Container,
-  Package,
-  PackagePlus,
-  Tag,
-  type LucideIcon,
-} from 'lucide-react'
-
-import { GlowingEffect } from '@/components/ui/glowing-effect'
 import { Meteors } from '@/registry/magicui/meteors'
 import './App.css'
 
-type CardSpec = {
+type ButtonSpec = {
   title: string
-  description: string
-  icon: LucideIcon
   href: string
-  area: string
 }
 
-// Sorted by warehouse operation flow:
-// Receiving → (Q.C.) → Stocking → Cycle Counting → Picking → Consolidation → (Q.C.) → Packing → Shipping
-const CARDS: CardSpec[] = [
-  // 1-4: Receiving (left column, top to bottom on xl)
+// Sorted clockwise from 12 o'clock by warehouse operation flow:
+// Receiving (4) → Stocking (3) → Consolidation (post-Picking)
+const BUTTONS: ButtonSpec[] = [
   {
     title: 'Receive-It: Expected Receipt',
-    description: 'ASN-driven inbound receiving against POs.',
-    icon: ClipboardCheck,
     href: 'https://app.supademo.com/demo/cmon0sug50npgw9dormp78ogr?utm_source=link',
-    area: 'md:[grid-area:1/1/2/4] xl:[grid-area:1/1/2/4]',
   },
   {
     title: 'Receive-It: Unexpected Receipt',
-    description: 'Capture unplanned inbound without breaking flow.',
-    icon: ClipboardX,
     href: 'https://app.supademo.com/demo/cmom3cuv02cojpimdom6ark25?utm_source=link',
-    area: 'md:[grid-area:1/4/2/7] xl:[grid-area:2/1/3/4]',
   },
   {
     title: 'Receive-It: Generate Labels',
-    description: 'Print SSCC and item labels right on the dock.',
-    icon: Tag,
     href: 'https://app.supademo.com/demo/cmom05fce2b3dpimdplfzaa7v?utm_source=link',
-    area: 'md:[grid-area:1/7/2/10] xl:[grid-area:3/1/4/4]',
   },
   {
     title: 'Receive-It: Receive to Tote',
-    description: 'Receive directly into totes for downstream put-away.',
-    icon: PackagePlus,
     href: 'https://app.supademo.com/demo/cmolz2jiw29dnpimds6y122wl?utm_source=link',
-    area: 'md:[grid-area:1/10/2/13] xl:[grid-area:4/1/5/4]',
   },
-
-  // 5-7: Stocking (right column, top to bottom on xl)
   {
     title: 'Stock-It: Tote Put-Away',
-    description: 'Move totes from receiving into storage locations.',
-    icon: Container,
     href: 'https://app.supademo.com/demo/cmokl08rk947oza2i0nnz3b3w?utm_source=link',
-    area: 'md:[grid-area:4/1/5/4] xl:[grid-area:1/10/2/13]',
   },
   {
     title: 'Stock-It: Product Put-Away',
-    description: 'Place individual products into bin locations.',
-    icon: Package,
     href: 'https://app.supademo.com/demo/cmokpjkrh02onpimdpz4w3tbx?utm_source=link',
-    area: 'md:[grid-area:4/4/5/7] xl:[grid-area:2/10/3/13]',
   },
   {
     title: 'Stock-It: Pallet Putaway',
-    description: 'Park full pallets into rack or bulk storage.',
-    icon: Boxes,
     href: 'https://app.supademo.com/demo/cmokquxcw03nxpimdcc4ajqjm?utm_source=link',
-    area: 'md:[grid-area:4/7/5/10] xl:[grid-area:3/10/4/13]',
   },
-
-  // 8: Consolidation (post-Picking, pre-Packing)
   {
     title: 'Consolidation',
-    description: 'Combine receipts and orders into single pick lists.',
-    icon: Combine,
     href: 'https://app.supademo.com/demo/cmonivxys1anyw9donwgy73jm?utm_source=link',
-    area: 'md:[grid-area:4/10/5/13] xl:[grid-area:4/10/5/13]',
   },
 ]
+
+const shortLabel = (title: string) =>
+  title.replace(/^(Receive-It|Stock-It):\s*/i, '')
 
 function App() {
   return (
@@ -127,35 +85,49 @@ function App() {
               Explore every Streamline-It module
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base text-neutral-400 md:text-lg">
-              Click any card to walk through the module step-by-step.
+              Click any button to walk through the module step-by-step.
             </p>
           </div>
 
-          <ul className="grid grid-cols-1 gap-4 md:grid-cols-12 md:grid-rows-4 xl:grid-rows-4">
-            {CARDS.map((card) => (
-              <BentoCard key={card.href} {...card} />
-            ))}
+          <div className="relative mx-auto aspect-square w-full max-w-3xl">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <img
+                src="/images/srt_modules-removebg-preview.png"
+                alt="SRT modules"
+                className="w-full max-w-[260px] object-contain opacity-90 md:max-w-[320px]"
+              />
+            </div>
 
-            <li className="list-none md:[grid-area:2/1/4/13] xl:[grid-area:1/4/5/10]">
-              <div className="relative flex h-full items-center justify-center rounded-2xl border border-neutral-800 bg-black/40 p-4 md:rounded-3xl md:p-6">
-                <GlowingEffect
-                  blur={0}
-                  borderWidth={3}
-                  spread={80}
-                  glow={true}
-                  disabled={false}
-                  proximity={64}
-                  inactiveZone={0.01}
-                  autoAnimate
-                />
-                <img
-                  src="/images/srt_modules-removebg-preview.png"
-                  alt="SRT modules"
-                  className="max-h-full w-auto max-w-full object-contain"
-                />
-              </div>
-            </li>
-          </ul>
+            {BUTTONS.map((btn, i) => {
+              const angle = (i / BUTTONS.length) * 2 * Math.PI - Math.PI / 2
+              const x = Math.cos(angle) * 38
+              const y = Math.sin(angle) * 38
+              return (
+                <a
+                  key={btn.href}
+                  href={btn.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute flex size-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-center text-xs font-bold leading-tight text-white transition-transform duration-300 hover:scale-110 sm:size-32 md:size-36 md:text-sm lg:size-40"
+                  style={{
+                    left: `${50 + x}%`,
+                    top: `${50 + y}%`,
+                    background: `
+                      radial-gradient(circle at 50% 25%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 55%),
+                      linear-gradient(to bottom, #f87171 0%, #dc2626 50%, #7f1d1d 100%)
+                    `,
+                    boxShadow:
+                      'inset 0 -8px 16px rgba(0,0,0,0.4), inset 0 3px 6px rgba(255,255,255,0.5), 0 6px 20px rgba(220,38,38,0.5)',
+                    textShadow: '0 1px 2px rgba(0,0,0,0.6)',
+                  }}
+                >
+                  <span className="px-3 text-balance">
+                    {shortLabel(btn.title)}
+                  </span>
+                </a>
+              )
+            })}
+          </div>
         </div>
       </section>
 
@@ -167,59 +139,7 @@ function App() {
           Streamline-It
         </h2>
       </section>
-
     </main>
-  )
-}
-
-const BentoCard = ({ area, icon: Icon, title, description, href }: CardSpec) => {
-  return (
-    <li className={`list-none min-h-[12rem] ${area}`}>
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative block h-full rounded-2xl border border-neutral-800 p-2 transition duration-300 hover:scale-[1.02] hover:border-red-900 md:rounded-3xl md:p-3"
-      >
-        <GlowingEffect
-          blur={0}
-          borderWidth={3}
-          spread={80}
-          glow={true}
-          disabled={false}
-          proximity={64}
-          inactiveZone={0.01}
-          autoAnimate
-        />
-        <div className="relative flex h-full flex-col justify-between gap-4 overflow-hidden rounded-xl bg-black/40 p-5 shadow-[0px_0px_27px_0px_#1a1a1a] md:p-6">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              backgroundImage:
-                'radial-gradient(circle, rgba(239,68,68,0.13) 1px, transparent 1px)',
-              backgroundSize: '14px 14px',
-              maskImage:
-                'radial-gradient(ellipse at top right, black, transparent 75%)',
-              WebkitMaskImage:
-                'radial-gradient(ellipse at top right, black, transparent 75%)',
-            }}
-          />
-          <div className="relative flex flex-1 flex-col justify-between gap-3">
-            <div className="w-fit rounded-lg border border-neutral-700 p-2">
-              <Icon className="h-4 w-4 text-neutral-400" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-sans text-base font-semibold tracking-tight text-balance text-white md:text-lg">
-                {title}
-              </h3>
-              <p className="font-sans text-xs text-neutral-400 md:text-sm">
-                {description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </a>
-    </li>
   )
 }
 
